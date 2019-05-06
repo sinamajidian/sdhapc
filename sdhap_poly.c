@@ -57,6 +57,10 @@ int compare (const void * a, const void * b);
 
 int main(int argc, char *argv[])
 {
+	if (argc<4){ // ./exec_file frag_file ouput numer_haps
+    printf("The number of the arguments is %d which should be 3. \n",argc-1 );
+		exit(-1);
+  }
 
   FILE *fpt,*fpt1,*fpt2,*fpt5,*fpt7;
   int *row;
@@ -86,37 +90,37 @@ int main(int argc, char *argv[])
 
   int **arr_pos;
   arr_pos=malloc(10000*sizeof(int*));
-  for (iter=0;iter<10000;iter++){   
+  for (iter=0;iter<10000;iter++){
     arr_pos[iter]=malloc(10000*sizeof(int));
   }
 
-  t1=clock(); 
+  t1=clock();
 
   int K;
 
   fpt=fopen(argv[1],"r");
   fpt1=fopen(argv[1],"r");
   K=atoi(argv[3]);
- 
 
- 
+
+
   fscanf(fpt,"%d",&num_read);
   fscanf(fpt,"%d",&num_col);
   fscanf(fpt1,"%d",&num_read);
   fscanf(fpt1,"%d",&num_col);
-  
+
   snp_mat=malloc(num_read*sizeof(int*));
   snp_list=malloc(num_read*sizeof(int*));
   snp_ct=malloc(num_read*sizeof(int));
   int **true_hap;
   int temp;
 
-  true_hap=malloc(K*sizeof(int*)); 
+  true_hap=malloc(K*sizeof(int*));
   for (iter=0;iter<K;iter++){
-    true_hap[iter]=malloc(num_col*sizeof(int));  
+    true_hap[iter]=malloc(num_col*sizeof(int));
   }
 
-  
+
   int ct;
   int num_seg;
   int k;
@@ -139,7 +143,7 @@ int main(int argc, char *argv[])
   list_val=malloc(Max_row*sizeof(int*));
 
 
-  for (iter=0;iter<Max_row;iter++){   
+  for (iter=0;iter<Max_row;iter++){
     list[iter]=malloc(10000*sizeof(int));
     list_val[iter]=malloc(10000*sizeof(int));
   }
@@ -148,9 +152,9 @@ int main(int argc, char *argv[])
   list2=malloc(Max_col*sizeof(int*));
   list_val2=malloc(Max_col*sizeof(int*));
 
-  for (iter=0;iter<Max_col;iter++){   
-    list2[iter]=malloc(10000*sizeof(int));   
-    list_val2[iter]=malloc(10000*sizeof(int));  
+  for (iter=0;iter<Max_col;iter++){
+    list2[iter]=malloc(10000*sizeof(int));
+    list_val2[iter]=malloc(10000*sizeof(int));
   }
 
   rd_array=malloc(num_read*sizeof(int));
@@ -164,13 +168,13 @@ int main(int argc, char *argv[])
   if(fpt==NULL)
     printf("\nError\n");
   else {
-    
+
     // while(!feof(fpt)){
-    
-    while(i<num_read-1){    
+
+    while(i<num_read-1){
       ct=-1;
-      i++;    
-      
+      i++;
+
       fscanf(fpt,"%d",&num_seg);
       fscanf(fpt,"%s",tempo);
       fscanf(fpt1,"%d",&num_seg);
@@ -181,10 +185,10 @@ int main(int argc, char *argv[])
 	fscanf(fpt,"%s",str);
 	d=strlen(str);
 	for (j=0;j<d;j++){
-	  ct++;	 
+	  ct++;
 	}
       }
-     
+
       if((num_seg!=1)||(ct!=0)){
 	i2++;
 	snp_ct[i2]=ct+1;
@@ -217,7 +221,7 @@ int main(int argc, char *argv[])
 	    }
 	  }
 	}
-     
+
 	read_ac[i]=0;
 	no_acc++;
       }
@@ -225,34 +229,34 @@ int main(int argc, char *argv[])
 	for(k=0;k<num_seg;k++){
 	  fscanf(fpt1,"%d",&pos);
 	  fscanf(fpt1,"%s",str);
-	}  
+	}
 	read_ac[i]=1;
- 
-      }   
+
+      }
       fscanf(fpt,"%s",qlty);
       fscanf(fpt1,"%s",qlty);
-    
-     
+
+
     }
   }
 
   fclose(fpt);
   fclose(fpt1);
 
-  int **haplotype; 
+  int **haplotype;
   haplotype=malloc(K*sizeof(int*));
   for (iter=0;iter<K;iter++){
-    haplotype[iter]=malloc(num_col*sizeof(int));  
+    haplotype[iter]=malloc(num_col*sizeof(int));
   }
   for(iter2=0;iter2<num_col;iter2++){
     for (iter=0;iter<K;iter++){
-      haplotype[iter][iter2]=1;  
+      haplotype[iter][iter2]=1;
     }
   }
- 
- 
+
+
   fpt=fopen(argv[1],"r");
-  
+
   i=-1;i2=-1;
   fscanf(fpt,"%d",&num_read);
   fscanf(fpt,"%d",&num_col);
@@ -262,7 +266,7 @@ int main(int argc, char *argv[])
   for(k=0;k<num_col;k++){
     snp_col[k]=malloc(col_ct[k]*sizeof(int));
   }
- 
+
   for(k=0;k<num_col;k++){
     col_ct[k]=0;
   }
@@ -270,13 +274,13 @@ int main(int argc, char *argv[])
   if(fpt==NULL)
     printf("\nError\n");
   else {
-    
-    while(i<num_read-1){     
+
+    while(i<num_read-1){
       ct=-1;
       i++;
       fscanf(fpt,"%d",&num_seg);
       fscanf(fpt,"%s",tempo);
-    
+
       if(read_ac[i]==0){
 	i2++;
 	for(k=0;k<num_seg;k++){
@@ -286,11 +290,11 @@ int main(int argc, char *argv[])
 	  d=strlen(str);
 	  for (j=0;j<d;j++){
 	    ct++;
-	    snp_col[pos+j-1][col_ct[pos+j-1]]=i2;	 
+	    snp_col[pos+j-1][col_ct[pos+j-1]]=i2;
 	    col_ct[pos+j-1]++;
 	  }
-	}    
-      }  
+	}
+      }
       else{
 	for(k=0;k<num_seg;k++){
 	  fscanf(fpt,"%d",&pos);
@@ -298,21 +302,21 @@ int main(int argc, char *argv[])
 
 	  d=strlen(str);
 
-	}   
-      }         
-      fscanf(fpt,"%s",qlty);     
-   
+	}
+      }
+      fscanf(fpt,"%s",qlty);
+
     }
   }
 
   fclose(fpt);
- 
+
   printf("Time to read data %f\n",(double)(clock()-t1)/CLOCKS_PER_SEC);
 
 
-  
+
   num_read=no_acc;
- 
+
   int *que_read;
   int *que_list;
   int *que_col;
@@ -321,7 +325,7 @@ int main(int argc, char *argv[])
   int *queue;
   int tu, iter3;
 
-  t1=clock(); 
+  t1=clock();
   row=malloc(10000000*sizeof(int));
   col=malloc(10000000*sizeof(int));
   val=malloc(10000000*sizeof(int));
@@ -340,7 +344,7 @@ int main(int argc, char *argv[])
   iter_cnt=1;
   que_ct=-1;
 
- 
+
   int rd_cnt;
   int rd_cnt2;
   int *col_que;
@@ -360,11 +364,11 @@ int main(int argc, char *argv[])
 
   rd_cnt2=0;
 
-  
+
 
   for(iter=0;iter<num_read;iter++){
-   
-    rd_cnt=0; 
+
+    rd_cnt=0;
     basect=0;
     if(que_read[iter]==0){
       que_read[iter]=iter_cnt;
@@ -373,21 +377,21 @@ int main(int argc, char *argv[])
       rd_array2[iter]=rd_cnt;
       rd_cnt++;
       basect+=snp_ct[iter];
-    
-     
+
+
       for(iter2=0;iter2<snp_ct[iter];iter2++){
 	for(iter3=0;iter3<col_ct[snp_list[iter][iter2]];iter3++){
 	  if(que_list[snp_col[snp_list[iter][iter2]][iter3]]==0){
-	    que_list[snp_col[snp_list[iter][iter2]][iter3]]=iter_cnt;	   
-	    que_ct++;	
+	    que_list[snp_col[snp_list[iter][iter2]][iter3]]=iter_cnt;
+	    que_ct++;
 	    queue[que_ct]=snp_col[snp_list[iter][iter2]][iter3];
 	  }
 	}
       }
-     
-     
+
+
       while(que_ct!=-1){
-  	tu=queue[que_ct];  
+  	tu=queue[que_ct];
   	que_read[tu]=iter_cnt;
 	rd_array[rd_cnt]=tu;
 	rd_array2[tu]=rd_cnt;
@@ -420,27 +424,27 @@ int main(int argc, char *argv[])
 	  }
 	}
       }
-    
-      
-      
+
+
+
       rd_cnt2+=rd_cnt;
       if(colct>1){
 
-	
+
 	i=0;
 	for(iter2=0;iter2<rd_cnt;iter2++){
-	 
-	  for(iter3=0;iter3<snp_ct[rd_array[iter2]];iter3++){	 
+
+	  for(iter3=0;iter3<snp_ct[rd_array[iter2]];iter3++){
 	    row[i]=iter2+1;
-	    col[i]=col_arr2[snp_list[rd_array[iter2]][iter3]];	  
-	    val[i]=snp_mat[rd_array[iter2]][iter3];	  
-	    i++;	 
+	    col[i]=col_arr2[snp_list[rd_array[iter2]][iter3]];
+	    val[i]=snp_mat[rd_array[iter2]][iter3];
+	    i++;
 	  }
 	}
 	iter_cnt++;
-	
+
 	if(rd_cnt>1){
-	 
+
 	}
 	//printf("Base Count=%d\n",basect);
 	num_base[iter_cnt-2]=basect;
@@ -452,17 +456,17 @@ int main(int argc, char *argv[])
 	for(iter=0;iter<colct;iter++){
 	  arr_pos[iter_cnt-2][iter]=reord[iter];
 	}
- 
-	
+
+
       }
       else {
-	
+
       }
     }
   }
- 
- 
- 
+
+
+
   printf("Time to haplotype %f\n",(double)(clock()-t1)/CLOCKS_PER_SEC);
   int k2;
   int tot_MEC;
@@ -474,7 +478,7 @@ int main(int argc, char *argv[])
   fpt5=fopen(argv[2],"w");
   for(iter=0;iter<=iter_cnt-2;iter++){
     fprintf(fpt5,"Block %d\t Length of haplotype block %d\t Number of reads %d\t Total MEC %d\n",iter+1,block_len[iter],block_rdlen[iter],MEC[iter]);
- 
+
     for(k=0;k<block_len[iter];k++){
       fprintf(fpt5,"%d\t",arr_pos[iter][k]);
       for (k2=0;k2<K;k2++){
@@ -483,7 +487,7 @@ int main(int argc, char *argv[])
       }
       fprintf(fpt5,"\n");
     }
- tot_base+=num_base[iter]; 
+ tot_base+=num_base[iter];
     tot_MEC+=MEC[iter];
   }
   printf("Total MEC of all blocks= %d,Total num of bases=%d,error rate %f\n", tot_MEC, tot_base, (float)tot_MEC/(float)tot_base);
@@ -504,49 +508,49 @@ int low_rank_sdp(int row[],int col[],int val[],int max_row,int max_col,int basec
   int num_read;
   int num_col;
 
- 
+
 
   for (iter=0;iter<max_row;iter++){
     num_ct[iter]=0;
   }
- 
+
   for (iter=0;iter<basect;iter++){
     num_ct[row[iter]-1]++;
   }
 
   for (iter=0;iter<max_row;iter++){
-   
+
     num_ct[iter]=0;
   }
- 
-  for (iter=0;iter<basect;iter++){   
+
+  for (iter=0;iter<basect;iter++){
     num_ct[row[iter]-1]++;
-    list[row[iter]-1][num_ct[row[iter]-1]-1]=col[iter]-1;   
-    list_val[row[iter]-1][num_ct[row[iter]-1]-1]=val[iter];  
-    
+    list[row[iter]-1][num_ct[row[iter]-1]-1]=col[iter]-1;
+    list_val[row[iter]-1][num_ct[row[iter]-1]-1]=val[iter];
+
   }
- 
-  
+
+
   for (iter=0;iter<max_col;iter++){
     num_ct2[iter]=0;
   }
   for (iter=0;iter<basect;iter++){
     num_ct2[col[iter]-1]++;
   }
- 
+
   for (iter=0;iter<max_col;iter++){
-   
+
     num_ct2[iter]=0;
   }
- 
+
   for (iter=0;iter<basect;iter++){
     num_ct2[col[iter]-1]++;
-    list2[col[iter]-1][num_ct2[col[iter]-1]-1]=row[iter]-1;   
-    if(list2[col[iter]-1][num_ct2[col[iter]-1]-1]<0){      
+    list2[col[iter]-1][num_ct2[col[iter]-1]-1]=row[iter]-1;
+    if(list2[col[iter]-1][num_ct2[col[iter]-1]-1]<0){
     }
-    list_val2[col[iter]-1][num_ct2[col[iter]-1]-1]=val[iter];   
+    list_val2[col[iter]-1][num_ct2[col[iter]-1]-1]=val[iter];
   }
- 
+
   for (iter=0;iter<max_col;iter++){
     // printf("%d %d \n",iter,num_ct2[iter]);
   }
@@ -567,9 +571,9 @@ int low_rank_sdp(int row[],int col[],int val[],int max_row,int max_col,int basec
     hapg5[iter]=malloc(max_col*sizeof(int));
     hapg1[iter]=malloc(max_col*sizeof(int));
   }
- 
+
   /* Conflict matrix formation */
- 
+
   int iter4, iter5;
   int *listn;
   int num,c1,c2;
@@ -592,29 +596,29 @@ int low_rank_sdp(int row[],int col[],int val[],int max_row,int max_col,int basec
 
   listn=malloc(max_row*sizeof(int));
 
- 
+
   FILE *fpt3,*fpt6,*fpt8;
- 
+
 
   for (iter=0;iter<max_row;iter++){
-   
+
     for (iter5=0;iter5<max_row;iter5++){
       listn[iter5]=0;
     }
     num=0;
-    for (iter2=0;iter2<num_ct[iter];iter2++){      
+    for (iter2=0;iter2<num_ct[iter];iter2++){
       for (iter3=0;iter3<num_ct2[list[iter][iter2]];iter3++){
 	if(list2[list[iter][iter2]][iter3]!=iter){
 	  if(listn[list2[list[iter][iter2]][iter3]]!=1){
 	    listn[list2[list[iter][iter2]][iter3]]=1;
 	    num++;
-	
+
 	  }
 	}
       }
     }
-    numc[iter]=num;  
-  
+    numc[iter]=num;
+
     listc[iter]=malloc(num*sizeof(int));
     conf_mat[iter]=malloc(num*sizeof(float));
     theta[iter]=malloc(num*sizeof(float));
@@ -623,23 +627,23 @@ int low_rank_sdp(int row[],int col[],int val[],int max_row,int max_col,int basec
     for (iter5=0;iter5<max_row;iter5++){
       listn[iter5]=0;
     }
-  
-    for (iter2=0;iter2<num_ct[iter];iter2++){      
+
+    for (iter2=0;iter2<num_ct[iter];iter2++){
       for (iter3=0;iter3<num_ct2[list[iter][iter2]];iter3++){
 
 	if(list2[list[iter][iter2]][iter3]!=iter){
 	  if(listn[list2[list[iter][iter2]][iter3]]!=1){
 	    listn[list2[list[iter][iter2]][iter3]]=1;
-	 
+
 	    c1=0;
 	    c2=0;
 
-	    for (iter4=0;iter4<num_ct[iter];iter4++){	
-	      for (iter5=0;iter5<num_ct[list2[list[iter][iter2]][iter3]];iter5++){	
-		if((list[iter][iter4]==list[list2[list[iter][iter2]][iter3]][iter5])){	
-		  c1++;		
+	    for (iter4=0;iter4<num_ct[iter];iter4++){
+	      for (iter5=0;iter5<num_ct[list2[list[iter][iter2]][iter3]];iter5++){
+		if((list[iter][iter4]==list[list2[list[iter][iter2]][iter3]][iter5])){
+		  c1++;
 		  if((list_val[iter][iter4]==list_val[list2[list[iter][iter2]][iter3]][iter5])){
-		    c2++;		 
+		    c2++;
 		  }
 		}
 	      }
@@ -673,21 +677,21 @@ int low_rank_sdp(int row[],int col[],int val[],int max_row,int max_col,int basec
 		theta[iter][num-1]=0.0;
 		theta2[iter][num-1]=0.0;
 	      }
-	    
+
 	    }
 
-	  
+
 	  }
 	}
       }
     }
- 
+
     numc[iter]=num;
- 
+
   }
 
- 
- 
+
+
   int MEC;
   if(conf_val>0){
 
@@ -737,7 +741,7 @@ int low_rank_sdp(int row[],int col[],int val[],int max_row,int max_col,int basec
       X[k2]=malloc(Max_rank*sizeof(float));
     }
     X_n=malloc(max_row*sizeof(float));
-   
+
     X_new=malloc(max_row*sizeof(float*));
     for (k2=0;k2<max_row;k2++){
       X_new[k2]=malloc(Max_rank*sizeof(float));
@@ -752,12 +756,12 @@ int low_rank_sdp(int row[],int col[],int val[],int max_row,int max_col,int basec
     }
 
     srand((unsigned int)time(NULL));
-    for (k2=0;k2<max_row;k2++){     
-      S[k2]=(int)4.0*((float)(rand())/RAND_MAX);   
-      // printf("%d\t",S[k2]);  
+    for (k2=0;k2<max_row;k2++){
+      S[k2]=(int)4.0*((float)(rand())/RAND_MAX);
+      // printf("%d\t",S[k2]);
     }
 
-   
+
     int stop;
     float val_max;
     float valalt[1000];
@@ -773,7 +777,7 @@ int low_rank_sdp(int row[],int col[],int val[],int max_row,int max_col,int basec
     iter=-1;
     stop=0;
     val_max=func_obS(S,conf_mat,listc,numc,max_row);
-     
+
     while(stop==0){
       iter++;
       for(k2=0;k2<max_row;k2++){
@@ -781,12 +785,12 @@ int low_rank_sdp(int row[],int col[],int val[],int max_row,int max_col,int basec
     	  S[k2]=k;
     	  m2[k]=func_obSpos(S,conf_mat,listc,numc,max_row,k2);
     	  m2[k]=m2[k];
-    	}   
-    	S[k2]=min_array_indf(m2,K); 
-    	
+    	}
+    	S[k2]=min_array_indf(m2,K);
+
       }
       valalt[iter]=func_obS(S,conf_mat,listc,numc,max_row);
-    
+
       if(iter>1){
     	if(valalt[iter]==valalt[iter-1]){
     	  stop=1;
@@ -801,21 +805,21 @@ int low_rank_sdp(int row[],int col[],int val[],int max_row,int max_col,int basec
       for (k3=0;k3<r_rank;k3++){
 	X[k2][k3]=-1.0/(float)K;
       }
-      X[k2][S[k2]]+=1.0;     
-      l=1.0-1.0/(float)K;    
+      X[k2][S[k2]]+=1.0;
+      l=1.0-1.0/(float)K;
       for (k3=0;k3<r_rank;k3++){
 	X[k2][k3]=X[k2][k3]/sqrt(l);
       }
     }
 
-   
-   
+
+
     /* Gradient computation */
-  
+
     object[0]=func_ob_poly(X,conf_mat,theta,listc,numc,max_row,r_rank);
     obj2=object[0];
-  
-   
+
+
 
     iteration=1;
 
@@ -823,7 +827,7 @@ int low_rank_sdp(int row[],int col[],int val[],int max_row,int max_col,int basec
     r_rank=iter_rank2;
     stop_iter2=0;
     stop_iter3=0;
-    
+
 
     stop=0;
     out_it=0;
@@ -840,11 +844,11 @@ int low_rank_sdp(int row[],int col[],int val[],int max_row,int max_col,int basec
       in_it++;
       stop2=0;
       ty=0;
-  
-      while(stop2==0){
-	ty++;    
 
-	for(k2=0;k2<max_row;k2++){	
+      while(stop2==0){
+	ty++;
+
+	for(k2=0;k2<max_row;k2++){
 	  for(j2=0;j2<r_rank;j2++){
 	    X_n[j2]=0.0;
 	  }
@@ -858,7 +862,7 @@ int low_rank_sdp(int row[],int col[],int val[],int max_row,int max_col,int basec
 	    nr+=pow(X_n[j2],2);
 	  }
 	  nr=sqrt(nr);
-	
+
 	  if(nr!=0.0){
 	    for(i3=0;i3<r_rank;i3++){
 	      X[k2][i3]=X_n[i3]/nr;
@@ -868,15 +872,15 @@ int low_rank_sdp(int row[],int col[],int val[],int max_row,int max_col,int basec
 
 
 	object[out_it]=func_ob_poly(X,conf_mat,theta,listc,numc,max_row,r_rank);
-	
+
 
 	if(iter>=5){
 	  iter=0;
-	
+
 	  lr=rank(X,r_th,max_row,r_rank);
 		//  printf("Rank %d\n",lr);
 
-	
+
 	  if(lr<Max_rank){
 	    if(lr==iter_rank2){
 	      iter=0;
@@ -892,14 +896,14 @@ int low_rank_sdp(int row[],int col[],int val[],int max_row,int max_col,int basec
 		for (k3=0;k3<r_rank;k3++){
 		  X[k2][k3]=X[k2][k3]/sqrt(l);
 		}
-	      }	  
+	      }
 	    }
 	  }
 	}
 
 
 	if(ty==1){
-	 
+
 	  stop2=1;
 	}
 
@@ -907,15 +911,15 @@ int low_rank_sdp(int row[],int col[],int val[],int max_row,int max_col,int basec
 
       object[out_it]=func_ob_poly(X,conf_mat,theta,listc,numc,max_row,r_rank);
    //  printf("obj2 temp = %f\n",object[out_it]);
-     
+
 
       /* Update mu, theta */
       //printf("Update\n");
 
-      if(in_it>=1){   
-	//	printf("theta update\n"); 
+      if(in_it>=1){
+	//	printf("theta update\n");
 	in_it=0;
-	for(i2=0;i2<max_row;i2++){	
+	for(i2=0;i2<max_row;i2++){
 	  // printf("i2=%d\n",i2);
 	  for(i3=0;i3<numc[i2];i3++){
 	    //printf("hey2\n");
@@ -926,7 +930,7 @@ int low_rank_sdp(int row[],int col[],int val[],int max_row,int max_col,int basec
 	    r+=-(1.0/((float)K-1.0));
 	    theta2[i2][i3]=r;
 	    sf=r*fabs(conf_mat[i2][i3]);
-	    //printf("hey2\n");           
+	    //printf("hey2\n");
 	    if(theta[i2][i3]>0.001){
 	      if(sf>0.0){
 		//	theta[i2][i3]=(pow(2,r))*theta[i2][i3];
@@ -940,11 +944,11 @@ int low_rank_sdp(int row[],int col[],int val[],int max_row,int max_col,int basec
 	    }
 	    else {
 	      theta[i2][i3]=theta[i2][i3]+mu*r/(float)(iteration);
-	    }       
-	    if(theta[i2][i3]>5.0){ 
+	    }
+	    if(theta[i2][i3]>5.0){
 	      theta[i2][i3]=5.0;
 	    }
-	    if(theta[i2][i3]<0.0){ 
+	    if(theta[i2][i3]<0.0){
 	      theta[i2][i3]=0.0;
 	    }
 	    if(r>0.0){
@@ -954,23 +958,23 @@ int low_rank_sdp(int row[],int col[],int val[],int max_row,int max_col,int basec
 	      theta2[i2][i3]=0.0;
 	    }
 	  }
-	}     
+	}
 	cnt++;
-	cnt2++;    
+	cnt2++;
       }
-           
+
       if(out_it>50){
 	r_av=0.0;
 	for(it=0;it<51;it++){
 	  r_av+=object[out_it-it];
 	}
 	r_av=r_av/50.0;
-        conv_as[out_it]=r_av; 
+        conv_as[out_it]=r_av;
 
         if(out_it>51){
       	  if(fabs(conv_as[out_it])>fabs(conv_as[out_it-1])){
 	    ratio=fabs(conv_as[out_it])/fabs(conv_as[out_it-1]);
-	    //   printf("ratio %f\n",ratio);      
+	    //   printf("ratio %f\n",ratio);
       	    if((ratio<1.00001)&&(out_it>100)&&(lr<r_rank)){
       	      stop=1;
       	    }
@@ -980,7 +984,7 @@ int low_rank_sdp(int row[],int col[],int val[],int max_row,int max_col,int basec
 
       object[out_it]=func_ob_poly(X,conf_mat,theta,listc,numc,max_row,r_rank);
       // printf("obj2 = %f\n",object[out_it]);
-      
+
 
       /* if((out_it==500)||(mu<0.01)||(cons[out_it]>-0.05)){ */
       /* 	stop=1; */
@@ -988,7 +992,7 @@ int low_rank_sdp(int row[],int col[],int val[],int max_row,int max_col,int basec
       if((out_it==Max_iter)){
       	stop=1;
       }
-    
+
       /* all_obj(out_it,1:iteration-1)=object(1:iteration-1); */
       /* object_un(out_it)=func_ob(X,conf_mat,num_ar,numl); */
 
@@ -1000,7 +1004,7 @@ int low_rank_sdp(int row[],int col[],int val[],int max_row,int max_col,int basec
     }
 
     // printf("col %d\n",max_col);
-  
+
     /* FILE *fpt; */
     /* fpt=fopen("/home/polaris/shree/haplotyping/objective.txt","w"); */
     /* for(i2=0;i2<Max_iter;i2++){ */
@@ -1008,7 +1012,7 @@ int low_rank_sdp(int row[],int col[],int val[],int max_row,int max_col,int basec
     /* } */
     /* //fprintf("\n"); */
     /* fclose(fpt); */
-   
+
     //  printf("Time for conflict %f\n",(double)(clock()-t1)/CLOCKS_PER_SEC);
 
     t1=clock();
@@ -1025,8 +1029,8 @@ int low_rank_sdp(int row[],int col[],int val[],int max_row,int max_col,int basec
     float *ran_mean;
 
     //fpt=fopen("/home/polaris/shree/haplotyping/rand_proj.txt","w");
-  
-  
+
+
 
 
     numran=max_row;
@@ -1069,7 +1073,7 @@ int low_rank_sdp(int row[],int col[],int val[],int max_row,int max_col,int basec
 	  ran_proj[k3][iter2]=ran_proj[k3][iter2]/sqrt(l3);
 	}
       }
-      
+
       //printf("hi\n");
 
       for (iter=0;iter<max_row;iter++){
@@ -1100,7 +1104,7 @@ int low_rank_sdp(int row[],int col[],int val[],int max_row,int max_col,int basec
 
     // fclose(fpt);
     //   printf("Time for random projections  %f ran_max %f\n",(double)(clock()-t1)/CLOCKS_PER_SEC,ran_max);
-   
+
 
     /* Greedy improvement */
 
@@ -1109,10 +1113,10 @@ int low_rank_sdp(int row[],int col[],int val[],int max_row,int max_col,int basec
     val_max=func_obS(S,conf_mat,listc,numc,max_row);
     //printf("value %f\n",val_max);
 
-    for(k2=0;k2<max_row;k2++){    
+    for(k2=0;k2<max_row;k2++){
       for(k=0;k<K;k++){
 	X[k2][k]=-1.0/(float)K;
-	
+
       }
       X[k2][readg_opt[k2]]+=1.0;
       l3=0.0;
@@ -1135,16 +1139,16 @@ int low_rank_sdp(int row[],int col[],int val[],int max_row,int max_col,int basec
       for(k2=0;k2<max_row;k2++){
     	for(k=0;k<K;k++){
     	  S[k2]=k;
-    	  m2[k]=func_obSpos(S,conf_mat,listc,numc,max_row,k2);    	  
+    	  m2[k]=func_obSpos(S,conf_mat,listc,numc,max_row,k2);
     	}
-      
+
     	/* for(k3=0;k3<K;k3++){ */
     	/* 	printf("m[%d]=%f\t",k3,m2[k3]); */
     	/* } */
     	S[k2]=min_array_indf(m2,K);
 	readg_opt[k2]=S[k2];
     	/* printf("%d\n",S[k2]); */
-    	
+
       }
       valalt[iter]=func_obS(S,conf_mat,listc,numc,max_row);
       //   printf("value %f\n",valalt[iter]);
@@ -1175,52 +1179,52 @@ int low_rank_sdp(int row[],int col[],int val[],int max_row,int max_col,int basec
     }
     // printf("hello\n");
     // printf("Total %f\n",obj_val);
-   
+
     float objective[10000];
     float s;
     iter=-1;
     stop=0;
- 
+
     iter=-1;
     stop=0;
 
     // t1=clock();
     int **hap_ct;
     int m3[4];
-    hap_ct=malloc(4*K*sizeof(int*));   
+    hap_ct=malloc(4*K*sizeof(int*));
     for(iter=0;iter<4*K;iter++){
-      hap_ct[iter]=malloc(max_col*sizeof(int));     
+      hap_ct[iter]=malloc(max_col*sizeof(int));
     }
     for(iter=0;iter<4*K;iter++){
       for(iter2=0;iter2<max_col;iter2++){
 	hap_ct[iter][iter2]=0;
       }
     }
-   
-    for(iter=0;iter<max_row;iter++){     
+
+    for(iter=0;iter<max_row;iter++){
       for(iter2=0;iter2<num_ct[iter];iter2++){
 	hap_ct[readg_opt[iter]*4+list_val[iter][iter2]-1][list[iter][iter2]]++;
       }
     }
-   
+
     for(iter=0;iter<max_col;iter++){
       for(iter2=0;iter2<K;iter2++){
 	for(iter3=0;iter3<4;iter3++){
 	  m3[iter3]=-hap_ct[iter2*4+iter3][iter];
-	 
+
 	}
 
-	hapg[iter2][iter]=min_array_ind(m3,4)+1;   
-	hapg1[iter2][iter]=hapg[iter2][iter]; 
-  
+	hapg[iter2][iter]=min_array_ind(m3,4)+1;
+	hapg1[iter2][iter]=hapg[iter2][iter];
+
       }
     }
- 
+
   //  printf("%d\n",MEC_calc(list,list_val,num_ct,hapg,max_row,max_col,K));
 
     /* Greedy update of columns */
     int MEC2[100];
-    int iter5; 
+    int iter5;
     iter5=0;
     stop=0;
     while(stop==0){
@@ -1229,7 +1233,7 @@ int low_rank_sdp(int row[],int col[],int val[],int max_row,int max_col,int basec
 	for(iter2=0;iter2<K;iter2++){
 
 	  for(iter3=0;iter3<4;iter3++){
-	 
+
 	    hapg1[iter2][iter]=iter3+1;
 	    m3[iter3]=MEC_calc_pos(list,list2,list_val,list_val2,num_ct,num_ct2,hapg1,iter,K);
 
@@ -1249,18 +1253,18 @@ int low_rank_sdp(int row[],int col[],int val[],int max_row,int max_col,int basec
       }
 
 
-   
+
     }
- 
- 
+
+
     int k1;
- 
-    for(k2=0;k2<max_col;k2++){   
-      for(k1=0;k1<K;k1++){    
-	haplotype[k1][reord[k2]]=hapg[k1][k2];           
-      }   
+
+    for(k2=0;k2<max_col;k2++){
+      for(k1=0;k1<K;k1++){
+	haplotype[k1][reord[k2]]=hapg[k1][k2];
+      }
     }
-   
+
     MEC2[0]=MEC_calc(list,list_val,num_ct,hapg,max_row,max_col,K);
     //printf("MEC=%d\n",MEC2[0]);
     MEC=MEC2[0];
@@ -1283,8 +1287,8 @@ int SWER2(int *true_hap[],int reord[],int *hapg[], int K,int max_col){
   }
 
   int iter,iter3;
-  int j; 
-  int sw_best; 
+  int j;
+  int sw_best;
   int swch;
   int sw_ct;
   int **new_hap;
@@ -1295,7 +1299,7 @@ int SWER2(int *true_hap[],int reord[],int *hapg[], int K,int max_col){
     new_hap[iter]=malloc(max_col*sizeof(int));
   }
 
-  for (iter=0;iter<max_col;iter++){ 
+  for (iter=0;iter<max_col;iter++){
     for(iter3=0;iter3<K;iter3++){
       new_hap[iter3][iter]=hapg[iter3][iter];
     }
@@ -1303,9 +1307,9 @@ int SWER2(int *true_hap[],int reord[],int *hapg[], int K,int max_col){
 
   swch=0;
   for (iter=0;iter<max_col;iter++){
- 
+
     sw_ct=0;
-    for(iter3=0;iter3<K;iter3++){     
+    for(iter3=0;iter3<K;iter3++){
       if(new_hap[iter3][iter]!=true_hap[iter3][reord[iter]]){
 	sw_ct++;
       }
@@ -1319,7 +1323,7 @@ int SWER2(int *true_hap[],int reord[],int *hapg[], int K,int max_col){
 	a[i]=i;
       }
       permute(a,0,K-1,new_hap,K,max_col,true_hap,reord,flag,iter);
-    }  
+    }
   }
   return swch;
   // sleep(10);
@@ -1340,11 +1344,11 @@ void swap (int *x, int *y)
    1. String
    2. Starting index of the string
    3. Ending index of the string. */
-void permute(int *a, int i, int n, int *new_hap[],int K, int max_col, int *true_hap[], int reord[], int flag,int pos) 
+void permute(int *a, int i, int n, int *new_hap[],int K, int max_col, int *true_hap[], int reord[], int flag,int pos)
 {
-  int j; 
+  int j;
   int i2;
- 
+
   int iter;
   int iter3;
 
@@ -1364,7 +1368,7 @@ void permute(int *a, int i, int n, int *new_hap[],int K, int max_col, int *true_
       /* for(i2=0;i2<K;i2++){ */
       /* 	  new_hap[i2][pos]=hapg[a[i2]][pos]; */
       /* 	} */
-  
+
       /* printf("hello\n"); */
       /* for(iter3=0;iter3<K;iter3++){ */
       /*   for(iter=0;iter<max_col;iter++){ */
@@ -1407,14 +1411,14 @@ void permute(int *a, int i, int n, int *new_hap[],int K, int max_col, int *true_
       }
 
     }
-  
-  
+
+
     else
       {
 	for (j = i; j <= n; j++)
 	  {
 	    swap((a+i), (a+j));
-	    permute(a,i+1,n,new_hap,K,max_col,true_hap,reord,flag,pos);	  
+	    permute(a,i+1,n,new_hap,K,max_col,true_hap,reord,flag,pos);
 	    swap((a+i), (a+j)); //backtrack
 	  }
       }
@@ -1428,7 +1432,7 @@ int  max_array(int arr[], int num_elements)
 {
   int i;
   int max=-32000;
- 
+
   for (i=0; i<num_elements; i++)
     {
       if (arr[i]>max)
@@ -1444,7 +1448,7 @@ int  min_array(int arr[], int num_elements)
 {
   int i;
   int min=32000;
- 
+
   for (i=0; i<num_elements; i++)
     {
       if (arr[i]<min)
@@ -1461,7 +1465,7 @@ int  min_array_ind(int arr[], int num_elements)
   int i;
   int min=32000;
   int min_ind;
- 
+
   for (i=0; i<num_elements; i++)
     {
       if (arr[i]<min)
@@ -1480,7 +1484,7 @@ int  min_array_indf(float arr[], int num_elements)
   int i;
   float min=32000.0;
   int min_ind;
- 
+
   for (i=0; i<num_elements; i++)
     {
       if (arr[i]<min)
@@ -1503,11 +1507,11 @@ int MEC_calc_pos(int *list[], int *list2[], int *list_val[], int *list_val2[],in
   // printf("%d\n",num_ct2[pos]);
   for (iter=0;iter<num_ct2[pos];iter++){
     // printf("%d\n",list2[pos][iter]);
-    //  er[0]=0;er[1]=0;  
+    //  er[0]=0;er[1]=0;
     for(iter3=0;iter3<K;iter3++){
-      er[iter3]=0; 
+      er[iter3]=0;
       for(iter2=0;iter2<num_ct[list2[pos][iter]];iter2++){
-     
+
 	//  printf("%d %d %d\n",iter,iter2,list_val[iter][iter2]);
 	if(list_val[list2[pos][iter]][iter2]==hapg1[iter3][list[list2[pos][iter]][iter2]]){
 	  er[iter3]++;
@@ -1546,11 +1550,11 @@ int MEC_calc(int *list[], int *list_val[], int num_ct[], int *hapg[],int max_row
 	}
       }
     }
-  
+
     er2+=num_ct[iter]-max_array(er,K);
-    
+
   }
- 
+
   return(er2);
 
 }
@@ -1562,11 +1566,11 @@ float obj_calc(float *conf_mat[],int *listc[],int readg[],int numc[],int max_row
   int k2, iter2;
 
   s=0.0;
-  for(k2=0;k2<max_row;k2++){     
+  for(k2=0;k2<max_row;k2++){
     for(iter2=0;iter2<numc[k2];iter2++){
       s+=conf_mat[k2][iter2]*readg[listc[k2][iter2]]*readg[k2];
     }
-   
+
   }
 
   return(s);
@@ -1580,8 +1584,8 @@ float func_ob_poly(float *X[],float *conf_mat[],float *theta[], int *listc[],int
   float obj;
   float l,l2,l3;
   obj=0.0;
- 
-  for(i2=0;i2<max_row;i2++){   
+
+  for(i2=0;i2<max_row;i2++){
     for(i3=0;i3<numc[i2];i3++){
 
       l=0.0;
@@ -1605,7 +1609,7 @@ float func_ob_poly(float *X[],float *conf_mat[],float *theta[], int *listc[],int
       obj+=(conf_mat[i2][i3]-theta[i2][i3])*(l3)/(l*l2);
       //printf("iter %d %d obj = %f\n",i2,i3,obj);
     }
-  }    
+  }
   // printf("%f\n",obj);
   if(isnan(obj)){
     printf("obj nan func %f %f %f %d\n",l,l2,l3,max_row);
@@ -1622,8 +1626,8 @@ float func_ob_lag(float *X[],float *conf_mat[],int *listc[],int numc[],int max_r
   float l,l2,l3;
   float r;
   obj=0.0;
- 
-  for(i2=0;i2<max_row;i2++){   
+
+  for(i2=0;i2<max_row;i2++){
     for(i3=0;i3<numc[i2];i3++){
       l3=0.0;
       for (k3=0;k3<r_rank;k3++){
@@ -1635,9 +1639,9 @@ float func_ob_lag(float *X[],float *conf_mat[],int *listc[],int numc[],int max_r
       }
       else{
 	obj+=conf_mat[i2][i3]*r-theta[i2][i3]*r+(1.0/(2.0*mu))*pow(fabs(r),2);
-      }    
+      }
     }
-  }    
+  }
   // printf("%f\n",obj);
   if(isnan(obj)){
     printf("obj nan func %f %f %f %d\n",l,l2,l3,max_row);
@@ -1654,7 +1658,7 @@ float func_obS(int S[],float *conf_mat[],int *listc[],int numc[],int max_row){
   float obj;
   float l,l2,l3;
   obj=0.0;
- 
+
   for(i2=0;i2<max_row;i2++){
     for(i3=0;i3<numc[i2];i3++){
       if(S[i2]==S[listc[i2][i3]]){
@@ -1666,7 +1670,7 @@ float func_obS(int S[],float *conf_mat[],int *listc[],int numc[],int max_row){
     }
   }
   //printf("%f\n",obj);
-  
+
   return(obj);
 }
 
@@ -1677,7 +1681,7 @@ float func_obSpos(int S[],float *conf_mat[],int *listc[],int numc[],int max_row,
   float obj;
   float l,l2,l3;
   obj=0.0;
- 
+
   i2=pos;
 
   for(i3=0;i3<numc[i2];i3++){
@@ -1700,12 +1704,12 @@ float func_ob2(int X[],float *conf_mat[],int *listc[],int numc[],int max_row,int
   float obj;
   float l,l2,l3;
   obj=0.0;
- 
-  for(i2=0;i2<max_row;i2++){   
-    for(i3=0;i3<numc[i2];i3++){     
-      obj+=conf_mat[i2][i3]*(float)X[i2]*(float)X[listc[i2][i3]];     
+
+  for(i2=0;i2<max_row;i2++){
+    for(i3=0;i3<numc[i2];i3++){
+      obj+=conf_mat[i2][i3]*(float)X[i2]*(float)X[listc[i2][i3]];
     }
-  }    
+  }
   // printf("%f\n",obj);
   return(obj);
 }
@@ -1722,28 +1726,28 @@ int rank(float *X[],float th,int max_row,int r_rank){
   /* Locals */
   int m = M, n = N, lda = LDA, ldu = LDU, ldvt = LDVT, info, lwork;
   float wkopt;
-  float* work; 
+  float* work;
   clock_t t1;
- 
+
   int iwork[8*N];
   float s[N],u[LDU*M], vt[LDVT*N];
- 
+
 
 
   srand((unsigned int)time(NULL));
-  
+
   float a[LDA*N];
   int iter,iter2;
   for(iter=0;iter<N;iter++){
-    for(iter2=0;iter2<LDA;iter2++){	   
-      // a[iter*N+iter2]=((float)(rand())/RAND_MAX);	  
+    for(iter2=0;iter2<LDA;iter2++){
+      // a[iter*N+iter2]=((float)(rand())/RAND_MAX);
       a[iter*LDA+iter2]=X[iter2][iter];
-      //printf("%f\t",a[iter*N+iter2]);	  
+      //printf("%f\t",a[iter*N+iter2]);
     }
   }
 
   lwork = -1;
- 
+
   sgesdd_( "N", &m, &n, a, &lda, s, u, &ldu, vt, &ldvt, &wkopt,
 	   &lwork, iwork, &info );
   lwork = (int)wkopt;
@@ -1766,7 +1770,7 @@ int rank(float *X[],float th,int max_row,int r_rank){
     if(s[i]>th){
       l=i+1;
      // printf("rank = %d %f\n",l,th);
-      
+
     }
   }
   for(i=0;i<r_rank;i++){
@@ -1774,7 +1778,7 @@ int rank(float *X[],float th,int max_row,int r_rank){
       sleep(10);
     }
   }
-  
+
   /* Print left singular vectors */
   //  print_matrix( "Left singular vectors (stored columnwise)", m, n, u, ldu );
   /* Print right singular vectors */
@@ -1800,28 +1804,28 @@ void print_matrix( char* desc, int m, int n, float* a, int lda ) {
 
 float gaussian_random(){
 
-  static int iset=0; 
-  static float gset; 
-  float fac,rsq,v1,v2; 
+  static int iset=0;
+  static float gset;
+  float fac,rsq,v1,v2;
 
- 
-  if (iset == 0) { // We don't have an extra deviate handy, so 
-    do { v1=2.0*((float)(rand())/RAND_MAX)-1.0;// pick two uniform numbers in the square extending from -1 to +1 in each direction, 
-      v2=2.0*((float)(rand())/RAND_MAX)-1.0; 
+
+  if (iset == 0) { // We don't have an extra deviate handy, so
+    do { v1=2.0*((float)(rand())/RAND_MAX)-1.0;// pick two uniform numbers in the square extending from -1 to +1 in each direction,
+      v2=2.0*((float)(rand())/RAND_MAX)-1.0;
       rsq=v1*v1+v2*v2;// see if they are in the unit circle,
-    
-    } 
-    while (rsq >= 1.0 || rsq == 0.0);// and if they are not, try again. 
-    fac=sqrt(-2.0*log(rsq)/rsq); 
-    //  Now make the Box-Muller transformation to get two normal deviates. Return one and save the other for next time.
-    gset=v1*fac; 
-    iset=1;// Set ag. 
-    return  v2*fac; } 
-  else {// We have an extra deviate handy, 
 
-    iset=0;// so unset the flag, 
-    return gset; //and return it. 
-  } 
+    }
+    while (rsq >= 1.0 || rsq == 0.0);// and if they are not, try again.
+    fac=sqrt(-2.0*log(rsq)/rsq);
+    //  Now make the Box-Muller transformation to get two normal deviates. Return one and save the other for next time.
+    gset=v1*fac;
+    iset=1;// Set ag.
+    return  v2*fac; }
+  else {// We have an extra deviate handy,
+
+    iset=0;// so unset the flag,
+    return gset; //and return it.
+  }
 }
 
 int cmpfunc (const void * a, const void * b)
