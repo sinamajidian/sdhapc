@@ -46,6 +46,10 @@ int compare (const void * a, const void * b);
 
 int main(int argc, char *argv[])
 {
+	if (argc<4){ // ./exec_file frag_file output_hap number_haps
+		printf("Error: The number of the arguments is %d which should be 3. \n",argc-1 );
+		exit(-1);
+	}
 
 	FILE *fpt,*fpt1,*fpt2,*fpt5,*fpt7;
 	int *row;
