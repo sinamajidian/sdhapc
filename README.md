@@ -47,7 +47,7 @@ I'm also trying to make the code better!
 Shreepriya Das* and Haris Vikalo"
 ```
 
-and this my recent paper: 
+and my recent paper: 
 ```
 "NGS based haplotype assembly using matrix completion", PLOS ONE, 2018
 ```
