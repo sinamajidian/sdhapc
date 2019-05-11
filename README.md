@@ -4,7 +4,9 @@
 I need to used SDhaP program but it is not easy to use.
 
 
-For installation  ATLAS is enough and following configuration
+For installation ATLAS, is enough with the following configuration
+
+
 ```
 
 tar xjf atlas3.10.3.tar.bz2
@@ -27,6 +29,12 @@ make install
 
 ```
 
+Some notes:
+
+LAPACK (Linear Algebra PACKage) is written in Fortran. There are some LAPACK APIs for C.  SDhaP needs the c-LAPACK version of ATLAS (Automatically Tuned Linear Algebra Software). ATLAS also contains some others libraries.  
+
+So it seems that installing ATLAS with the option (--with-netlib-lapack-tarfile) is enough. And no need to install clapack or cblas or lapack seperately! 
+
 
 
 I'm also trying to make the code better!
@@ -37,9 +45,10 @@ I'm also trying to make the code better!
 
 "SDhaP: haplotype assembly for diploids and polyploids via semi-definite programming
 Shreepriya Das* and Haris Vikalo"
+```
 
-and 
-
+and this my recent paper: 
+```
 "NGS based haplotype assembly using matrix completion", PLOS ONE, 2018
 ```
 
