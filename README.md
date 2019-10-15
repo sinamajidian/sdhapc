@@ -41,12 +41,12 @@ ${PATH}='/mnt/scratch/majid001/sdhap_full_inst/'
 ${PATH}/ATLAS_source/configure --help
 ```
 
-You need to check tour architecture and  your cpu and type it as Mhz in option DPentiumCPS.
+You need to check your architecture and  your cpu and type it as Mhz in option DPentiumCPS.
 ```
 cat /proc/cpuinfo 
 uname -m
 ```
-for x86 use `-DPentiumCPS=2300` and for non x86 use  `-D c -DWALL`. Default option generates static library. You can add --shared to generate also shared library.
+for x86 use `-DPentiumCPS=2300` and for non x86 use  `-D c -DWALL`. Default option generates static library. You can add `--shared` to generate also shared library.
 
 
 For generic libraries
@@ -57,8 +57,11 @@ ${PATH}/ATLAS_source/configure --prefix=${PATH}/ATLAS_out --with-netlib-lapack-t
 
 For your case
 ```
-${PATH}/ATLAS_source/configure --prefix=../ATLAS_out --with-netlib-lapack-tarfile=${PATH}/lapack_source/lapack-3.8.0.tar.gz  -b 64 -D c -DPentiumCPS=2300  -v 2
+${PATH}/ATLAS_source/configure --prefix=${PATH}/ATLAS_out --with-netlib-lapack-tarfile=${PATH}/lapack_source/lapack-3.8.0.tar.gz  -b 64 -D c -DPentiumCPS=2300  -v 2
 ```
+
+
+It takes several minutes.
 
 ## build 
 
@@ -66,6 +69,11 @@ ${PATH}/ATLAS_source/configure --prefix=../ATLAS_out --with-netlib-lapack-tarfil
 
 ```
 make 
+```
+It may takes few days!
+
+
+```
 make check    
 make ptcheck  
 make time  
@@ -86,7 +94,7 @@ The official line by author
 gcc SDhaP_poly.c -o hap -L/usr/lib64/atlas -llapack -lcblas -I/usr/include/atlas
 ```
 
-I'm using the followings for my mac and wur server. 
+I'm using the followings for my mac and WUR fisher server. 
 ```
 gcc SDhaP_poly.c -g -o out -L/ATLAS_build/lib -lcblas -llapack  -I/ATLAS_out/include -lm -latlas -lf77refblas -L/usr/local/Cellar/gcc/8.3.0_2/lib/gcc/8/ -lgfortran
 
@@ -100,7 +108,6 @@ gcc SDhaP_poly.c -g -o hap_polya -I/usr/include/x86_64-linux-gnu/ -llapack -lcbl
 k=3
 
 ./hap_poly fragment_file out.hap $k
-
 ```
 
 
@@ -111,10 +118,9 @@ k=3
 
 ## References
 
-```
-"SDhaP: haplotype assembly for diploids and polyploids via semi-definite programming
-Shreepriya Das* and Haris Vikalo"
-```
+"SDhaP: haplotype assembly for diploids and polyploids via semi-definite programming", 
+Shreepriya Das* and Haris Vikalo
+
 
 
 
